@@ -100,17 +100,17 @@ class TokenFactory():
             case 'E_exp':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 4)
             case 'E_ka_r':
-                return TokenWithPrecedence(TokenType.PARENTHESIS, lexem, Associativity.LEFT)
+                return TokenWithPrecedence(TokenType.PARENTHESIS, lexem, Associativity.LEFT, 5)
             case 'E_ka_e':
-                return TokenWithPrecedence(TokenType.RANGE, lexem, Associativity.LEFT)
+                return TokenWithPrecedence(TokenType.RANGE, lexem, Associativity.LEFT, 5)
             case 'E_ka_g':
-                return TokenWithPrecedence(TokenType.SET, lexem, Associativity.LEFT)
+                return TokenWithPrecedence(TokenType.SET, lexem, Associativity.LEFT, 5)
             case 'E_kz_r':
-                return TokenWithPrecedence(TokenType.PARENTHESIS, lexem, Associativity.RIGHT)
+                return TokenWithPrecedence(TokenType.PARENTHESIS, lexem, Associativity.RIGHT, 5)
             case 'E_kz_e':
-                return TokenWithPrecedence(TokenType.RANGE, lexem, Associativity.RIGHT)
+                return TokenWithPrecedence(TokenType.RANGE, lexem, Associativity.RIGHT, 5)
             case 'E_kz_g':
-                return TokenWithPrecedence(TokenType.SET, lexem, Associativity.RIGHT)
+                return TokenWithPrecedence(TokenType.SET, lexem, Associativity.RIGHT, 5)
             case 'e_eq' | 'e_les' | 'e_gre' |  'E_leq' | 'E_geq' | 'neq':
                 return Token(TokenType.RELATIONAL_OPERATOR, lexem)
             case 'E_cma' | 'E_smc':

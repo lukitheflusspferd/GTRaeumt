@@ -17,38 +17,6 @@ class __COMMON_CHARACTER_SETS():
     """
     LETTERS = __LETTERS
     DIGITS = {str(i) for i in range(10)}
-  
-
-"""
-Gibt für eine bestimmte Position eines Tokens des Typs TokenType die erlaubten Zeichen zurück.
->>> ALLOWED_TOKEN_CHARACTERS[TokenTypeID][Position] -> set of allowed Characters
-"""
-
-'''class State():
-    """
-    Klasse für einen Zustand des Automaten für die Generierung der Token
-    """
-    def __init__(self, stateID, nextStatesByCharacter : dict):
-        self.__stateID = stateID
-        self.__nextStatesByCharacter = nextStatesByCharacter
-        # Endzustand wenn Menge der Folgezustände leer
-        if self.__nextStatesByCharacter == dict():
-            self.__isFinalState = True
-        else:
-            self.__isFinalState = False
-    
-    """
-    Gibt den nächsten Zustand für den gegebenen Buchstaben zurück
-    """
-    def getNextStateByCharacter(self, character):
-        return self.__nextStatesByCharacter.get(character)
-    
-    """
-    Getter-Methode für isFinalState
-    """
-    def getIsFinalState(self):
-        return self.__isFinalState
-        '''
     
 # Generierung des Automaten
 # Menge der Buchstaben, außerdem das Leerzeichen, damit bei diesem als unbekanntem Symbol nicht geworfen wird, stattdessen wird das Token beendet
@@ -164,7 +132,10 @@ Da die PreStates in einem Dict gespeichert sind, in welchem für normale Zustän
 Es werden die reservierten Schlüsselwörter 'LETTERS', 'DIGITS' und 'ELSE' ersetzt.
 Dabei muss 'ELSE' in PreStates immer als letztes stehen, damit dafür korrekt der Rest des Alphabets eingesetzt werden kann
 """
-STATES = dict()
+STATES : dict[str, dict]= dict()
+"""
+Automaton für die jeweiligen Folgezustände eines Zeichens
+"""
 # Für jede Liste von Folgezuständen der Zustände in den vorläufigen Zuständen
 for state, value in __PreStates.items():
     # Wenn Endzustand, dann ist nichts zu tun

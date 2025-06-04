@@ -24,8 +24,11 @@ def tokenize(expression: str) -> list:
     
     index = 0
     repeatLetterFlag = False
+    # Char auf einen unsinnigen Wert setzen, damit in dem (eigentlich unmöglichen) Fall, dass Char nicht belegt wird,
+    # die Anwendung über nextStateID = None in die "Unerwarteter Buchstabe"-Exception läuft
+    char = ""
     expressionLength = len(expression)
-    nextPossibleStates = deepcopy(STATES["start"])
+    nextPossibleStates : dict = deepcopy(STATES["start"])
     currentTokenString = ""
     
     tokenList = []
@@ -37,6 +40,7 @@ def tokenize(expression: str) -> list:
             char = expression[index]
         
         # In jedem Fall den Folgezustand des Buchstabens auslesen, da sich dieser auch mit Wiederholung geändert hat
+        # Hier Abruf mit .get(), da der Buchstabe evtl. ungültig ist
         nextStateID = nextPossibleStates.get(char)
         
         # Das Flag 'repeatLetter' zurücksetzen
@@ -62,7 +66,8 @@ def tokenize(expression: str) -> list:
                 currentTokenString = ""
                 continue
             else:
-                nextPossibleStates = deepcopy(STATES.get(nextStateID))
+                # Hier Abruf mit [], da der State in jedem Fall vorhanden sein sollte
+                nextPossibleStates = deepcopy(STATES[nextStateID])
         # Sonst Fehler "Unerwarteter Buchstabe"
         else: raise Exception("Unerwarteter Buchstabe")
         
