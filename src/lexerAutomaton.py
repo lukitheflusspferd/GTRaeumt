@@ -29,7 +29,7 @@ __PreStates = {
     'start' : {
         ' ' : 'start',
         '+' : 'E_add',
-        '-' : 'sub',
+        '-' : 'E_sub',
         '.' : 'nmbr_2',
         'DIGITS' : 'nmbr_1',
         'LETTERS' : 'str',
@@ -54,12 +54,7 @@ __PreStates = {
         '%' : 'E_mod',
     },
     'E_add' : None,
-    'sub' : {
-        'DIGITS' : 'nmbr_1',
-        '.' : 'nmbr_2',
-        'ELSE' : 'e_sub',
-    },
-    'e_sub' : None,
+    'E_sub' : None,
     'nmbr_1' : {
         'DIGITS' : 'nmbr_1',
         '.' : 'nmbr_2',

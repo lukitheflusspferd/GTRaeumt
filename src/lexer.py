@@ -30,6 +30,8 @@ def tokenize(expression: str) -> list:
     expressionLength = len(expression)
     nextPossibleStates : dict = deepcopy(STATES["start"])
     currentTokenString = ""
+    # Index des Beginns des TokenStrings (aufgrund der Zählweise in Python beginnend bei 0)
+    startIndex = 0
     
     tokenList = []
     tokenStringList = []
@@ -58,12 +60,15 @@ def tokenize(expression: str) -> list:
                 else: 
                     currentTokenString += char
                     index += 1
+                # Der Index ist hier in jedem Fall stellvertretend für das nächste Zeichen, für den Endindex wird daher eins abgezogen    
                 print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentTokenString))
-                tokenList.append(tokenFaktory.generateToken(nextStateID, currentTokenString))
+                tokenList.append(tokenFaktory.generateToken(nextStateID, currentTokenString, (startIndex, index -1)))
                 tokenStringList.append(currentTokenString)
                 nextPossibleStates = deepcopy(STATES["start"])
                 nextStateID = ""
                 currentTokenString = ""
+                # index steht hier definitiv für den (theoretischen) Beginn des nächsten Tokens -> wird deswegen gespeichert
+                startIndex = index
                 continue
             else:
                 # Hier Abruf mit [], da der State in jedem Fall vorhanden sein sollte
@@ -71,19 +76,22 @@ def tokenize(expression: str) -> list:
         # Sonst Fehler "Unerwarteter Buchstabe"
         else: raise Exception("Unerwarteter Buchstabe")
         
-        # Da 'repeatLetter' hie definitiv nicht gesetzt ist, da nach einem Endzustand die Schleife wiederholt wird, wird der Index erhöht
+        # Da 'repeatLetter' hier definitiv nicht gesetzt ist, da nach einem Endzustand die Schleife wiederholt wird, wird der Index erhöht
         index += 1
         
-        # Leerzeichen sollen übersprungen werden
+        # Leerzeichen sollen übersprungen werden, wenn ein Leerzeichen erkannt wird, ist definitiv kein Token aktiv und der startIndex muss nach dem Leerzeichen folgen
+        # --> dieser wird also auf den gerade berechneten neuen Index gesetzt
         if char != ' ': currentTokenString += char
+        else: startIndex = index
         
         print(char, nextStateID)
-        
+    
+    # TODO: Rückgabe der in der Tokenfactory gesammelten Variablen
     return tokenStringList, tokenList
         
 #zk = "Hallo_Welt314Pi_dfs$s"
 #zk = "-3.1414.55"
-a, b = tokenize("Hallo, Welt: =><>-314*Pi_dfss -3.1414.55")
+a, b = tokenize("Hallo, Welt: =><>-314*Pi_dfss -3.1414.55/ 69--42")
 print("Liste der Lexeme", a, " \n")
 print("Liste der Token:")
 for t in b: print(t)
