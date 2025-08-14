@@ -3,7 +3,7 @@ from copy import deepcopy
 from lexerAutomaton import STATES
 import mathToken
 
-def tokenize(expression: str) -> list:
+def tokenize(expression: str):
     """
     Zerlegt einen Ausdruck in eine Liste von Tokens
 
@@ -29,7 +29,7 @@ def tokenize(expression: str) -> list:
     char = ""
     expressionLength = len(expression)
     nextPossibleStates : dict = deepcopy(STATES["start"])
-    currentTokenString = ""
+    currentLexem = ""
     # Index des Beginns des TokenStrings (aufgrund der Zählweise in Python beginnend bei 0)
     startIndex = 0
     
@@ -58,15 +58,15 @@ def tokenize(expression: str) -> list:
                 # Wenn das Zeichen dazugehört, wird es dem String hinzugefügt und der Index erhöht
                 # Hier kann das Zeichen kein Leerzeichen sein, da es sich immer im Sonst-Fall befindet
                 else: 
-                    currentTokenString += char
+                    currentLexem += char
                     index += 1
                 # Der Index ist hier in jedem Fall stellvertretend für das nächste Zeichen, für den Endindex wird daher eins abgezogen    
-                print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentTokenString))
-                tokenList.append(tokenFaktory.generateToken(nextStateID, currentTokenString, (startIndex, index -1)))
-                tokenStringList.append(currentTokenString)
+                print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentLexem))
+                tokenList.append(tokenFaktory.generateToken(nextStateID, currentLexem, (startIndex, index -1)))
+                tokenStringList.append(currentLexem)
                 nextPossibleStates = deepcopy(STATES["start"])
                 nextStateID = ""
-                currentTokenString = ""
+                currentLexem = ""
                 # index steht hier definitiv für den (theoretischen) Beginn des nächsten Tokens -> wird deswegen gespeichert
                 startIndex = index
                 continue
@@ -81,17 +81,20 @@ def tokenize(expression: str) -> list:
         
         # Leerzeichen sollen übersprungen werden, wenn ein Leerzeichen erkannt wird, ist definitiv kein Token aktiv und der startIndex muss nach dem Leerzeichen folgen
         # --> dieser wird also auf den gerade berechneten neuen Index gesetzt
-        if char != ' ': currentTokenString += char
+        if char != ' ': currentLexem += char
         else: startIndex = index
         
         print(char, nextStateID)
     
-    # TODO: Rückgabe der in der Tokenfactory gesammelten Variablen
-    return tokenStringList, tokenList
+    # Rückgabe der in der Tokenfactory gesammelten Variablen
+    variables = tokenFaktory.getVariables()
+    
+    return tokenStringList, tokenList, variables
         
 #zk = "Hallo_Welt314Pi_dfs$s"
 #zk = "-3.1414.55"
-a, b = tokenize("Hallo, Welt: =><>-314*Pi_dfss -3.1414.55/ 69--42")
+a, b, c = tokenize("Hallo, Welt: =><>-314*Pi-dfss -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
 print("Liste der Lexeme", a, " \n")
 print("Liste der Token:")
 for t in b: print(t)
+print("gefundene Variablen:", c)

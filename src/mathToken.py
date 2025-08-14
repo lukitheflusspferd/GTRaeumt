@@ -5,7 +5,10 @@ import globalVariables
 
 PREDEFINED_CONSTANTS = {
     "pi" : numpy.pi,
-    "euler" : numpy.e
+    "Pi" : numpy.pi,
+    "π" : numpy.pi,
+    "euler" : numpy.e,
+    "Euler" : numpy.e
 }
 
 PREDEFINED_FUNCTIONS = {
@@ -97,13 +100,14 @@ class TokenFactory():
             case 'e_nmbr':
                 return Token(TokenType.LITERAL, lexem, position)
             case 'e_str':
-                return Token(TokenType.LITERAL, lexem, position)
+                return self.__severalStrings(lexem, position)
+                # return Token(TokenType.LITERAL, lexem, position)
             case 'e_mul' | 'E_div':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 3, position)
             case 'E_mod':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 2, position)
             case 'E_exp':
-                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 4, position)
+                return TokenWithPrecedence(TokenType.OPERATOR, '^', Associativity.LEFT, 4, position)
             case 'E_ka_r':
                 return TokenWithPrecedence(TokenType.PARENTHESIS, lexem, Associativity.LEFT, 5, position)
             case 'E_ka_e':
@@ -126,14 +130,18 @@ class TokenFactory():
                 return Token(TokenType.PART_OF, lexem, position)
             case 'E_vln':
                 return Token(TokenType.WITH, lexem, position)
+            case 'E_grLet':
+                return self.__severalStrings(lexem, position)
+            case 'E_smpr':
+                raise NotImplementedError()
             case _:
                 raise Exception("Unerwarteter Endzustand")
         
         
     
-    def __severalStrings(self, lexem: str, position: tuple[int, int]):
+    def __severalStrings(self, lexem: str, position: tuple[int, int]) -> Token | TokenWithPrecedence:
         """
-        Funktion, welche für jegliche Zeichenketten das jeweilige Token generiert,
+        Funktion, welche für jegliche unbekannte Zeichenketten das jeweilige Token generiert,
         also für Konstanten, Funktionen, Variablen und Befehle
 
         Args:
@@ -165,4 +173,7 @@ class TokenFactory():
         # Sonst muss die Zk eine Variable sein (wird dem Set hinzugefügt, doppelt macht eh nichts)
         self.__variables.add(lexem)
         return Token(TokenType.VARIABLE, lexem, position)
+    
+    def getVariables(self):
+        return self.__variables
         
