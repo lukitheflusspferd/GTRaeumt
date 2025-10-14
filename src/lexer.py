@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from lexerAutomaton import STATES
-import mathToken
+import lexerTokenfactory
 
 def tokenize(expression: str):
     """
@@ -17,7 +17,7 @@ def tokenize(expression: str):
         list: Liste der Tokenobjekte
     """
     
-    tokenFaktory = mathToken.TokenFactory()
+    tokenFaktory = lexerTokenfactory.TokenFactory()
     
     # Hinzufügen eines Endleerzeichens, um das letzte Token in jedem Fall zu beenden
     expression += ' '
@@ -87,14 +87,20 @@ def tokenize(expression: str):
         print(char, nextStateID)
     
     # Rückgabe der in der Tokenfactory gesammelten Variablen
-    variables = tokenFaktory.getVariables()
+    variables = tokenFaktory.getUnknownIdentifiers()
     
     return tokenStringList, tokenList, variables
         
 #zk = "Hallo_Welt314Pi_dfs$s"
 #zk = "-3.1414.55"
-a, b, c = tokenize("Hallo, Welt: =><>-314*Pi-dfss -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
+a, b, c = tokenize("Hallo, Welt: =><>-314*(Pi-dfss) -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
 print("Liste der Lexeme", a, " \n")
 print("Liste der Token:")
 for t in b: print(t)
-print("gefundene Variablen:", c)
+print("gefundene unbekannte Bezeichnungen:", c)
+
+a, b, c = tokenize("pLOt(sin(A/(b**c-pI))|A>=3245;b=111;b:int;c:[42,69])")
+print("Liste der Lexeme", a, " \n")
+print("Liste der Token:")
+for t in b: print(t)
+print("gefundene unbekannte Bezeichnungen:", c)
