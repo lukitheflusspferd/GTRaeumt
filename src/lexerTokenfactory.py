@@ -49,7 +49,9 @@ class TokenFactory():
                 return TokenWithPrecedence(TokenType.SET_CLOSE, lexem, Associativity.RIGHT, 5, position)
             case 'e_eq' | 'e_les' | 'e_gre' |  'E_leq' | 'E_geq' | 'neq':
                 return Token(TokenType.RELATIONAL_OPERATOR, lexem, position)
-            case 'E_cma' | 'E_smc':
+            case 'E_cma':
+                return Token(TokenType.COMMA, lexem, position)
+            case 'E_smc':
                 return Token(TokenType.SEPERATOR, lexem, position)
             case 'E_asgn':
                 return Token(TokenType.ASSIGNMENT, lexem, position)

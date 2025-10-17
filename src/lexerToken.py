@@ -16,7 +16,8 @@ COMMAND_IDENTIFIER = {
     "min" : "commandMin",
     "max" : "commandMax",
     "wende" : "commandWende",
-    "ableitung" : "commandAbleitung"
+    "ableitung" : "commandAbleitung",
+    "berechne" : "commandBerechne"
 }
 
 NUMBER_RANGES = {
@@ -38,18 +39,19 @@ class TokenType(Enum):
     OPERATOR = "operator"
     FUNCTION = "function"
     
-    PARENTHESIS_OPEN = "parenthesis"
-    PARENTHESIS_CLOSE = "parenthesis"
-    RANGE_OPEN = "range"
-    RANGE_CLOSE = "range"
-    SET_OPEN = "set"
-    SET_CLOSE = "set"
+    PARENTHESIS_OPEN = "parenthesisOpen"
+    PARENTHESIS_CLOSE = "parenthesisClose"
+    RANGE_OPEN = "rangeOpen"
+    RANGE_CLOSE = "rangeClose"
+    SET_OPEN = "setOpen"
+    SET_CLOSE = "setClose"
     
     PART_OF = "partOf"
     NUMBER_RANGE = "numberRange"
     RELATIONAL_OPERATOR = "relationalOperator"
     ARGUMENTSEPERATOR = "argumentSeperator"
     SEPERATOR = "seperator"
+    COMMA = "comma"
     ASSIGNMENT = "assignment"
     
     
@@ -58,6 +60,7 @@ class TokenType(Enum):
     COMMAND_MAX = "commandMax"
     COMMAND_WENDE = "commandWende"
     COMMAND_ABLEITUNG = "commandAbleitung"
+    COMMAND_BERECHNE = "commandBerechne"
     
     TEMP_SUBSTITUTION = "tempSubstitution"
     UNKNOWN_IDENTIFIER = "unknownIdentifier"
