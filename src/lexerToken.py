@@ -8,7 +8,8 @@ PREDEFINED_CONSTANTS = {
 }
 
 PREDEFINED_FUNCTIONS = {
-    "loremipsum1" : None
+    "sin" : None,
+    "cos" : None
 }
 
 COMMAND_IDENTIFIER = {
