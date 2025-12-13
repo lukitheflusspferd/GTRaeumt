@@ -84,23 +84,24 @@ def tokenize(expression: str):
         if char != ' ': currentLexem += char
         else: startIndex = index
         
-        print(char, nextStateID)
+        # print(char, nextStateID)
     
     # Rückgabe der in der Tokenfactory gesammelten Variablen
     variables = tokenFaktory.getUnknownIdentifiers()
     
     return tokenStringList, tokenList, variables
-        
-#zk = "Hallo_Welt314Pi_dfs$s"
-#zk = "-3.1414.55"
-a, b, c = tokenize("Hallo, Welt: =><>-314*(Pi-dfss) -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
-print("Liste der Lexeme", a, " \n")
-print("Liste der Token:")
-for t in b: print(t)
-print("gefundene unbekannte Bezeichnungen:", c)
 
-a, b, c = tokenize("pLOt(sin(A/(b**c-pI))|A>=3245;b=111;b:int;c:[42,69])")
-print("Liste der Lexeme", a, " \n")
-print("Liste der Token:")
-for t in b: print(t)
-print("gefundene unbekannte Bezeichnungen:", c)
+if __name__ == "__main__":      
+    #zk = "Hallo_Welt314Pi_dfs$s"
+    #zk = "-3.1414.55"
+    a, b, c = tokenize("Hallo, Welt: =><>-314*(Pi-dfss) -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
+    print("Liste der Lexeme", a, " \n")
+    print("Liste der Token:")
+    for t in b: print(t)
+    print("gefundene unbekannte Bezeichnungen:", c)
+
+    a, b, c = tokenize("pLOt(sin(A/(b**c-pI))|A>=3245;b=111;b:int;c:[42,69])")
+    print("Liste der Lexeme", a, " \n")
+    print("Liste der Token:")
+    for t in b: print(t)
+    print("gefundene unbekannte Bezeichnungen:", c)
