@@ -2,7 +2,7 @@ import unittest
 import lexer
 from lexerToken import *
 from lexerTokenfactory import TokenFactory
-import parserCommands
+import prepareTokenstream
 
 class TestParserPrepareTokenstream(unittest.TestCase):
 
@@ -13,7 +13,7 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         tokenFactory = TokenFactory()
         for command in COMMAND_IDENTIFIER.keys(): 
             _, tokenstream, _ = lexer.tokenize(command+"(sin|a>=5)")
-            newTokenstream = parserCommands.prepareTokenstram(tokenstream)
+            newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
             tokenTypeStream = [item.getTokenType() for item in newTokenstream]
             expectedTokenTypeStream = [tokenFactory.generateToken("e_str", command, (1,2)).getTokenType(),
                                    tokenFactory.generateToken("E_ka_r", "(", (1,2)).getTokenType(),
@@ -31,7 +31,7 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         Testet, ob in Befehlen mit und ohne Argumente korrekt substituiert wird
         """
         _, tokenstream, _ = lexer.tokenize("plot(sin(a*(c-kmh)|a>=5))")
-        newTokenstream = parserCommands.prepareTokenstram(tokenstream)
+        newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.COMMAND_PLOT, TokenType.PARENTHESIS_OPEN, TokenType.TEMP_SUBSTITUTION,
                                    TokenType.ARGUMENTSEPERATOR, TokenType.UNKNOWN_IDENTIFIER, TokenType.RELATIONAL_OPERATOR,
@@ -39,7 +39,7 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'plot(sin(a*(c-kmh)|a>=5))'")
         
         _, tokenstream, _ = lexer.tokenize("plot(sin(a*(c-kmh)))")
-        newTokenstream = parserCommands.prepareTokenstram(tokenstream)
+        newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.COMMAND_PLOT, TokenType.PARENTHESIS_OPEN, TokenType.TEMP_SUBSTITUTION, TokenType.PARENTHESIS_CLOSE]
         self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'plot(sin(a*(c-kmh)))'")
@@ -49,7 +49,7 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         Testet, ob in Definitionen mit und ohne Argument korrekt substituiert wird
         """
         _, tokenstream, _ = lexer.tokenize("f(g):=sin(a*(c-kmh)|a>=5)")
-        newTokenstream = parserCommands.prepareTokenstram(tokenstream)
+        newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.UNKNOWN_IDENTIFIER, TokenType.PARENTHESIS_OPEN, TokenType.UNKNOWN_IDENTIFIER, 
                                    TokenType.PARENTHESIS_CLOSE, TokenType.ASSIGNMENT, TokenType.TEMP_SUBSTITUTION,
@@ -58,7 +58,7 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'f(g):=sin(a*(c-kmh)|a>=5)'")
         
         _, tokenstream, _ = lexer.tokenize("f(g):=sin(a*(c-kmh))")
-        newTokenstream = parserCommands.prepareTokenstram(tokenstream)
+        newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.UNKNOWN_IDENTIFIER, TokenType.PARENTHESIS_OPEN, TokenType.UNKNOWN_IDENTIFIER, 
                                    TokenType.PARENTHESIS_CLOSE, TokenType.ASSIGNMENT, TokenType.TEMP_SUBSTITUTION]

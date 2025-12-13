@@ -1,8 +1,5 @@
 from lexerToken import *
 
-def parser(tokenList: list):
-    pass
-
 def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TempSubstitionToken]:
     
     if tokenList[0].getTokenType().value.startswith("command"):
