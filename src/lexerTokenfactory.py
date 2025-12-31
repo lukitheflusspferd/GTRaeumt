@@ -85,7 +85,7 @@ class TokenFactory():
             Token | TokenWithPrecedence: Gibt das entsprechende Token zurück
         """
         global PREDEFINED_CONSTANTS
-        global PREDEFINED_FUNCTIONS
+        global PREDEFINED_FUNCTIONS_IDENTIFIER
         
         lexem = lexem.lower()
         
@@ -95,11 +95,11 @@ class TokenFactory():
         if lexem in globalVariables.getSelfdefinedConstants():
             return Token(TokenType.LITERAL, globalVariables.getSelfdefinedConstants()[lexem], position)
         
-        if lexem in PREDEFINED_FUNCTIONS:
+        if lexem in PREDEFINED_FUNCTIONS_IDENTIFIER:
             return Token(TokenType.FUNCTION, lexem, position)
         
-        if lexem in globalVariables.getSelfdefinedFunctions():
-            raise NotImplementedError
+        if lexem in globalVariables.getSelfdefinedFunctionIdentifier():
+            return Token(TokenType.FUNCTION, lexem, position)
         
         if lexem in COMMAND_IDENTIFIER:
             tokenType = TokenType(COMMAND_IDENTIFIER[lexem])

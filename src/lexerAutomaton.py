@@ -2,8 +2,10 @@ from greekLetters import GREEK_LETTERS, GREEK_MATH_SYMBOLS
 
 class __COMMON_CHARACTER_SETS():
     """
-    Generierung der Buchstabenliste
+    Zeichenmengen für häufige Verwendung
     """
+    
+    # Generierung der Buchstabenmenge
     __LETTERS = set()
     for i in range(65, 91):
         __LETTERS.add(chr(i))
@@ -12,9 +14,7 @@ class __COMMON_CHARACTER_SETS():
     
     __LETTERS = __LETTERS | {'Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'ß'}
     
-    """
-    Gesammelte Buchstabensammlungen für häufige Verwendung
-    """
+    # endgültige, öffentliche Mengen
     LETTERS = __LETTERS
     DIGITS = {str(i) for i in range(10)}
     
@@ -30,7 +30,7 @@ __PreStates = {
         ' ' : 'start',
         '+' : 'E_add',
         '-' : 'E_sub',
-        '.' : 'nmbr_2',
+        '.' : 'nmbr_3',
         'DIGITS' : 'nmbr_1',
         'LETTERS' : 'str',
         '_' : 'str',
@@ -66,6 +66,9 @@ __PreStates = {
     'nmbr_2' : {
         'DIGITS' : 'nmbr_2',
         'ELSE' : 'e_nmbr',
+    },
+    'nmbr_3' : {
+        'DIGITS' : 'nmbr_2',
     },
     #'e_nmbr' : None,
     'str' : {

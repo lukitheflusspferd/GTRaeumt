@@ -30,12 +30,13 @@ def tokenize(expression: str):
     expressionLength = len(expression)
     nextPossibleStates : dict = deepcopy(STATES["start"])
     currentLexem = ""
-    # Index des Beginns des TokenStrings (aufgrund der Zählweise in Python beginnend bei 0)
-    startIndex = 0
+    # Index des Beginns des aktuellen Lexems (aufgrund der Zählweise in Python beginnend bei 0)
+    lexemStartIndex = 0
     
     tokenList = []
-    tokenStringList = []
+    lexemList = []
     
+    # Solange der Index des betrachteten Zeichens innerhalb des Ausdrucks liegt
     while index < expressionLength:
         # Nächsten Buchstaben auslesen, wenn das Flag 'repeatLetter' nicht gesetzt ist
         if not repeatLetterFlag:
@@ -62,36 +63,37 @@ def tokenize(expression: str):
                     index += 1
                 # Der Index ist hier in jedem Fall stellvertretend für das nächste Zeichen, für den Endindex wird daher eins abgezogen    
                 print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentLexem))
-                tokenList.append(tokenFaktory.generateToken(nextStateID, currentLexem, (startIndex, index -1)))
-                tokenStringList.append(currentLexem)
+                tokenList.append(tokenFaktory.generateToken(nextStateID, currentLexem, (lexemStartIndex, index -1)))
+                lexemList.append(currentLexem)
                 nextPossibleStates = deepcopy(STATES["start"])
                 nextStateID = ""
                 currentLexem = ""
                 # index steht hier definitiv für den (theoretischen) Beginn des nächsten Tokens -> wird deswegen gespeichert
-                startIndex = index
+                lexemStartIndex = index
                 continue
             else:
                 # Hier Abruf mit [], da der State in jedem Fall vorhanden sein sollte
                 nextPossibleStates = deepcopy(STATES[nextStateID])
         # Sonst Fehler "Unerwarteter Buchstabe"
-        else: raise Exception("Unerwarteter Buchstabe")
+        else: raise Exception("Unerwartetes Zeichen an Position "+str(index)+'.')
         
         # Da 'repeatLetter' hier definitiv nicht gesetzt ist, da nach einem Endzustand die Schleife wiederholt wird, wird der Index erhöht
         index += 1
         
-        # Leerzeichen sollen übersprungen werden, wenn ein Leerzeichen erkannt wird, ist definitiv kein Token aktiv und der startIndex muss nach dem Leerzeichen folgen
+        # Leerzeichen sollen übersprungen werden, wenn ein Leerzeichen erkannt wird, ist definitiv kein Token aktiv und der startIndex muss auf der Position nach dem Leerzeichen folgen
         # --> dieser wird also auf den gerade berechneten neuen Index gesetzt
+        # Das Leerzeichen wird natürlich nicht zum aktuellen Lexem hinzugefügt.
         if char != ' ': currentLexem += char
-        else: startIndex = index
+        else: lexemStartIndex = index
         
         # print(char, nextStateID)
     
     # Rückgabe der in der Tokenfactory gesammelten Variablen
     variables = tokenFaktory.getUnknownIdentifiers()
     
-    return tokenStringList, tokenList, variables
+    return lexemList, tokenList, variables
 
-if __name__ == "__main__":      
+if __name__ == "__main__":
     #zk = "Hallo_Welt314Pi_dfs$s"
     #zk = "-3.1414.55"
     a, b, c = tokenize("Hallo, Welt: =><>-314*(Pi-dfss) -3.1414.55/ 69--42**Euler-pi^euler,ξ-π")
@@ -101,6 +103,12 @@ if __name__ == "__main__":
     print("gefundene unbekannte Bezeichnungen:", c)
 
     a, b, c = tokenize("pLOt(sin(A/(b**c-pI))|A>=3245;b=111;b:int;c:[42,69])")
+    print("Liste der Lexeme", a, " \n")
+    print("Liste der Token:")
+    for t in b: print(t)
+    print("gefundene unbekannte Bezeichnungen:", c)
+    
+    a, b, c = tokenize("12. .- 42.69 * 1 / 17.8 -  .5 % .22")
     print("Liste der Lexeme", a, " \n")
     print("Liste der Token:")
     for t in b: print(t)

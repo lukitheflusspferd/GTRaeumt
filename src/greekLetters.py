@@ -70,5 +70,5 @@ GREEK_MATH_SYMBOLS = {
 }
 
 if __name__ == '__main__':
-    print(GREEK_LETTERS)
-    print(GREEK_MATH_SYMBOLS)
+    print("Griechische Buchstaben zur Verwendung in Bezeichnern:", GREEK_LETTERS)
+    print("Sonderzeichen für Summe und Produkt:", GREEK_MATH_SYMBOLS)

@@ -7,9 +7,9 @@ PREDEFINED_CONSTANTS = {
     "euler" : numpy.e,
 }
 
-PREDEFINED_FUNCTIONS = {
-    "sin" : None,
-    "cos" : None
+PREDEFINED_FUNCTIONS_IDENTIFIER = {
+    "sin",
+    "cos",
 }
 
 COMMAND_IDENTIFIER = {
@@ -40,6 +40,7 @@ class TokenType(Enum):
     OPERATOR = "operator"
     FUNCTION = "function"
     
+    # Klammern
     PARENTHESIS_OPEN = "parenthesisOpen"
     PARENTHESIS_CLOSE = "parenthesisClose"
     RANGE_OPEN = "rangeOpen"
@@ -63,7 +64,7 @@ class TokenType(Enum):
     COMMAND_ABLEITUNG = "commandAbleitung"
     COMMAND_BERECHNE = "commandBerechne"
     
-    TEMP_SUBSTITUTION = "tempSubstitution"
+    TERM_SUBSTITUTION = "termSubstitution"
     UNKNOWN_IDENTIFIER = "unknownIdentifier"
 
 class Token():
@@ -105,15 +106,15 @@ class TokenWithPrecedence(Token):
     def __str__(self):
         return f"Tokenobjekt ->  Typ: {self._tokenType},   Inhalt: {self._lexem},   Assoziativität: {self.__associativity},   Priorität: {self.__precedence},   Position: {self._position[0]}..{self._position[1]}"
         
-class TempSubstitionToken(Token):
+class TermSubstitionToken(Token):
     def __init__(self, tokens: list[Token]):
         self.__tokenlist = tokens
         assert len(tokens)!=0
         overallPosition = (tokens[0].getPosition()[0], tokens[len(tokens)-1].getPosition()[1])
-        super().__init__(TokenType.TEMP_SUBSTITUTION, "", overallPosition)
+        super().__init__(TokenType.TERM_SUBSTITUTION, "", overallPosition)
     
     def getTokenlist(self):
         return self.__tokenlist
     
     def __str__(self):
-        return f"Temporäres Tokenobjekt mit substituierten Tokens ->  Typ: {self._tokenType},   Inhalt der Substitution: {self.__tokenlist},   Position: {self._position[0]}..{self._position[1]}"
+        return f"Termtokenobjekt mit substituierten Tokens ->  Typ: {self._tokenType},   Inhalt der Substitution / des Terms: {self.__tokenlist},   Position: {self._position[0]}..{self._position[1]}"

@@ -6,9 +6,10 @@ def getSelfdefinedConstants():
     return SELFDEFINED_CONSTANTS
 
 
-SELFDEFINED_FUNCTIONS = {
-    "LoremIpsum2" : None
+SELFDEFINED_FUNCTIONS_IDENTIFIER = {
+    "LoremIpsum2",
+    "Beispielfunktion"
 }
 
-def getSelfdefinedFunctions():
-    return SELFDEFINED_FUNCTIONS
+def getSelfdefinedFunctionIdentifier():
+    return SELFDEFINED_FUNCTIONS_IDENTIFIER

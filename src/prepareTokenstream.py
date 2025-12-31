@@ -1,7 +1,15 @@
 from lexerToken import *
 
-def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TempSubstitionToken]:
-    
+def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TermSubstitionToken]:
+    """
+    Extrahiert die Terme und substituiert diese zu TermSubstitutionToken
+
+    Args:
+        tokenList (list[Token | TokenWithPrecedence]): Tokenstrom des Lexers
+
+    Returns:
+        list[Token|TokenWithPrecedence|TermSubstitionToken]: Gibt den modifizierten Tokenstrom zurück
+    """
     if tokenList[0].getTokenType().value.startswith("command"):
         # Befehl
         
@@ -25,12 +33,12 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         # Wenn kein Seperator, dann bis zum vorletzen Token substituieren (letztes müsste Klammer sein) (y bei list[x:y] nicht inkludiert)
         if seperatorPosition == -1:
             tokenListToSubstitute = tokenList[2:len(tokenList)-1]
-            tokenList = tokenList[0:2] + [TempSubstitionToken(tokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
+            tokenList = tokenList[0:2] + [TermSubstitionToken(tokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
         tokenListToSubstitute = tokenList[2:seperatorPosition]
-        tokenList = tokenList[0:2] + [TempSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        tokenList = tokenList[0:2] + [TermSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
     
     else:
@@ -59,13 +67,13 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         # Wenn kein Seperator, dann bis zum letzen Token substituieren
         if seperatorPosition == -1:
             tokenListToSubstitute = tokenList[assignmentPosition+1:len(tokenList)]
-            tokenList = tokenList[0:assignmentPosition+1] + [TempSubstitionToken(tokenListToSubstitute)]
+            tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitionToken(tokenListToSubstitute)]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
         
         tokenListToSubstitute = tokenList[assignmentPosition+1:seperatorPosition]
-        tokenList = tokenList[0:assignmentPosition+1] + [TempSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
         
         
