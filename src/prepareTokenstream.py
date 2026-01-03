@@ -1,6 +1,6 @@
 from lexerToken import *
 
-def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TermSubstitionToken]:
+def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TermSubstitutionToken]:
     """
     Extrahiert die Terme und substituiert diese zu TermSubstitutionToken
 
@@ -15,7 +15,7 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         
         # zweites Token muss öffnende Klammer sein
         if tokenList[1].getTokenType() != TokenType.PARENTHESIS_OPEN:
-            raise Exception("Nach einem Befehlstoken keine öffnende Klammer gefunden!")
+            raise Exception("Syntaxfehler: Nach einem Befehlstoken keine öffnende Klammer gefunden!")
         
         # wenn drittes Token Funktionsidentifier und danach Klammer oder senkrechter Strich, dann wird nichts substituiert --> liste unverändert zurückgeben
         if tokenList[2].getTokenType() == TokenType.FUNCTION:
@@ -33,12 +33,12 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         # Wenn kein Seperator, dann bis zum vorletzen Token substituieren (letztes müsste Klammer sein) (y bei list[x:y] nicht inkludiert)
         if seperatorPosition == -1:
             tokenListToSubstitute = tokenList[2:len(tokenList)-1]
-            tokenList = tokenList[0:2] + [TermSubstitionToken(tokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
+            tokenList = tokenList[0:2] + [TermSubstitutionToken(tokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
         tokenListToSubstitute = tokenList[2:seperatorPosition]
-        tokenList = tokenList[0:2] + [TermSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        tokenList = tokenList[0:2] + [TermSubstitutionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
     
     else:
@@ -54,7 +54,7 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
             
         # Wenn := nicht existiert, dann Fehler:
         if assignmentPosition == -1:
-            raise Exception("Befehlstoken am Anfang oder ':=' irgendwo außer am Anfang erwartet, aber nicht gefunden.")
+            raise Exception("Syntaxfehler: Befehlstoken am Anfang oder ':=' irgendwo außer am Anfang erwartet, aber nicht gefunden.")
         
         # nach erstem Auftreten von senkrechtem Strich suchen suchen
         seperatorPosition = -1
@@ -67,13 +67,13 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         # Wenn kein Seperator, dann bis zum letzen Token substituieren
         if seperatorPosition == -1:
             tokenListToSubstitute = tokenList[assignmentPosition+1:len(tokenList)]
-            tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitionToken(tokenListToSubstitute)]
+            tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(tokenListToSubstitute)]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
         
         tokenListToSubstitute = tokenList[assignmentPosition+1:seperatorPosition]
-        tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
         
         

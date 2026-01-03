@@ -9,7 +9,24 @@ PREDEFINED_CONSTANTS = {
 
 PREDEFINED_FUNCTIONS_IDENTIFIER = {
     "sin",
+    "arcsin",
     "cos",
+    "arccos",
+    "tan",
+    "arctan",
+    "sqrt",
+    "root"
+}
+
+PREDEFINED_FUNCTIONS_ARITY = {
+    "sin" : 1,
+    "arcsin" : 1,
+    "cos" : 1,
+    "arccos" : 1,
+    "tan" : 1,
+    "arctan" : 1,
+    "sqrt" : 1,
+    "root" : 2
 }
 
 COMMAND_IDENTIFIER = {
@@ -66,6 +83,7 @@ class TokenType(Enum):
     
     TERM_SUBSTITUTION = "termSubstitution"
     UNKNOWN_IDENTIFIER = "unknownIdentifier"
+    EOI = "endOfInput"
 
 class Token():
     """
@@ -90,12 +108,13 @@ class Token():
         
 class TokenWithPrecedence(Token):
     """
-    Klasse für ein Token mit Typ, Inhalt, Assoziativität, Priorität und Position
+    Klasse für ein Token mit Typ, Inhalt, Assoziativität, Priorität, Stelligkeit und Position
     """
-    def __init__(self, tokenType : TokenType, lexem : str, associativity : Associativity, precedence : int, position : tuple[int, int]):
+    def __init__(self, tokenType : TokenType, lexem : str, associativity : Associativity, precedence : int, arity : int, position : tuple[int, int]):
         super().__init__(tokenType, lexem, position)
         self.__associativity = associativity
         self.__precedence = precedence
+        self.__arity = arity
         
     def getAssociativity(self):
         return self.__associativity
@@ -103,10 +122,13 @@ class TokenWithPrecedence(Token):
     def getPrecedence(self):
         return self.__precedence
     
+    def getArity(self):
+        return self.__arity
+    
     def __str__(self):
-        return f"Tokenobjekt ->  Typ: {self._tokenType},   Inhalt: {self._lexem},   Assoziativität: {self.__associativity},   Priorität: {self.__precedence},   Position: {self._position[0]}..{self._position[1]}"
+        return f"Tokenobjekt ->  Typ: {self._tokenType},   Inhalt: {self._lexem},   Assoziativität: {self.__associativity},   Priorität: {self.__precedence},   Stelligkeit: {self.__arity},   Position: {self._position[0]}..{self._position[1]}"
         
-class TermSubstitionToken(Token):
+class TermSubstitutionToken(Token):
     def __init__(self, tokens: list[Token]):
         self.__tokenlist = tokens
         assert len(tokens)!=0
@@ -117,4 +139,9 @@ class TermSubstitionToken(Token):
         return self.__tokenlist
     
     def __str__(self):
-        return f"Termtokenobjekt mit substituierten Tokens ->  Typ: {self._tokenType},   Inhalt der Substitution / des Terms: {self.__tokenlist},   Position: {self._position[0]}..{self._position[1]}"
+        tokenListStr = ""
+        for t in self.__tokenlist:
+            tokenListStr += "   " + str(t) + "\n"
+        return f"""Termtokenobjekt mit substituierten Tokens ->
+ Typ: {self._tokenType},
+ Inhalt der Substitution / des Terms: \n{tokenListStr} Position: {self._position[0]}..{self._position[1]}"""

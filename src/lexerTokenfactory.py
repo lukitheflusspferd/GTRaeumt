@@ -23,30 +23,30 @@ class TokenFactory():
         
         match endState:
             case 'E_add' | 'E_sub':
-                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 1, position)
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 1, 2, position)
             case 'e_nmbr':
                 return Token(TokenType.LITERAL, lexem, position)
             case 'e_str':
                 return self.__severalStrings(lexem, position)
                 # return Token(TokenType.LITERAL, lexem, position)
             case 'e_mul' | 'E_div':
-                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 3, position)
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 3, 2, position)
             case 'E_mod':
-                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 2, position)
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 2, 2, position)
             case 'E_exp':
-                return TokenWithPrecedence(TokenType.OPERATOR, '^', Associativity.LEFT, 4, position)
+                return TokenWithPrecedence(TokenType.OPERATOR, '^', Associativity.RIGHT, 4, 2, position)
             case 'E_ka_r':
-                return TokenWithPrecedence(TokenType.PARENTHESIS_OPEN, lexem, Associativity.LEFT, 5, position)
+                return Token(TokenType.PARENTHESIS_OPEN, lexem, position)
             case 'E_ka_e':
-                return TokenWithPrecedence(TokenType.RANGE_OPEN, lexem, Associativity.LEFT, 5, position)
+                return Token(TokenType.RANGE_OPEN, lexem, position)
             case 'E_ka_g':
-                return TokenWithPrecedence(TokenType.SET_OPEN, lexem, Associativity.LEFT, 5, position)
+                return Token(TokenType.SET_OPEN, lexem, position)
             case 'E_kz_r':
-                return TokenWithPrecedence(TokenType.PARENTHESIS_CLOSE, lexem, Associativity.RIGHT, 5, position)
+                return Token(TokenType.PARENTHESIS_CLOSE, lexem, position)
             case 'E_kz_e':
-                return TokenWithPrecedence(TokenType.RANGE_CLOSE, lexem, Associativity.RIGHT, 5, position)
+                return Token(TokenType.RANGE_CLOSE, lexem, position)
             case 'E_kz_g':
-                return TokenWithPrecedence(TokenType.SET_CLOSE, lexem, Associativity.RIGHT, 5, position)
+                return Token(TokenType.SET_CLOSE, lexem, position)
             case 'e_eq' | 'e_les' | 'e_gre' |  'E_leq' | 'E_geq' | 'neq':
                 return Token(TokenType.RELATIONAL_OPERATOR, lexem, position)
             case 'E_cma':
@@ -62,9 +62,9 @@ class TokenFactory():
             case 'E_grLet':
                 return self.__severalStrings(lexem, position)
             case 'E_smpr':
-                raise NotImplementedError()
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 5, 3, position)
             case _:
-                raise Exception("Unerwarteter Endzustand")
+                raise Exception("Unbekannter Endzustand")
         
         
     
@@ -76,10 +76,6 @@ class TokenFactory():
         Args:
             lexem (str): Die Zeichenkette, welche der Tokenizer extrahiert hat
             position (tuple[int, int]): Start und Endposition des Lexems/Tokens im Ausgangsstring
-
-        Raises:
-            NotImplementedError: _description_
-            NotImplementedError: _description_
 
         Returns:
             Token | TokenWithPrecedence: Gibt das entsprechende Token zurück
@@ -96,10 +92,10 @@ class TokenFactory():
             return Token(TokenType.LITERAL, globalVariables.getSelfdefinedConstants()[lexem], position)
         
         if lexem in PREDEFINED_FUNCTIONS_IDENTIFIER:
-            return Token(TokenType.FUNCTION, lexem, position)
+            return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 5, PREDEFINED_FUNCTIONS_ARITY[lexem], position)
         
         if lexem in globalVariables.getSelfdefinedFunctionIdentifier():
-            return Token(TokenType.FUNCTION, lexem, position)
+            return TokenWithPrecedence(TokenType.FUNCTION, lexem, Associativity.LEFT, 5, globalVariables.getSelfdefinedFunctionArity(lexem), position)
         
         if lexem in COMMAND_IDENTIFIER:
             tokenType = TokenType(COMMAND_IDENTIFIER[lexem])

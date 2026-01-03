@@ -1,15 +1,25 @@
-SELFDEFINED_CONSTANTS = dict()
+selfdefinedConstants = dict()
 
-SELFDEFINED_CONSTANTS["l"] = 17
+selfdefinedConstants["bsp_konst"] = 17
 
 def getSelfdefinedConstants():
-    return SELFDEFINED_CONSTANTS
+    return selfdefinedConstants
 
-
-SELFDEFINED_FUNCTIONS_IDENTIFIER = {
-    "LoremIpsum2",
-    "Beispielfunktion"
+# Bezeichner und Stelligkeiten von selbstdefinierten Funktionen
+# die Bezeichner müssen vollständig klein geschrieben sein
+selfdefinedFunctionsIdentifier = {
+    "loremipsum2",
+    "beispielfunktion"
 }
 
 def getSelfdefinedFunctionIdentifier():
-    return SELFDEFINED_FUNCTIONS_IDENTIFIER
+    return selfdefinedFunctionsIdentifier
+
+selfdefinedFunctionsArity = {
+    "loremipsum2" : 42,
+    "beispielfunktion" : 3,
+    "f": 2
+}
+
+def getSelfdefinedFunctionArity(functionIdentifier):
+    return selfdefinedFunctionsArity[functionIdentifier]

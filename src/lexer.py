@@ -108,7 +108,11 @@ if __name__ == "__main__":
     for t in b: print(t)
     print("gefundene unbekannte Bezeichnungen:", c)
     
-    a, b, c = tokenize("12. .- 42.69 * 1 / 17.8 -  .5 % .22")
+    _, token, _ = tokenize(r"root(5% LoremIpsum2)^∏(1,69,k)")
+    print("Liste der Token:")
+    for t in token: print(t)
+    
+    a, b, c = tokenize("12. - 42.69 * 1 / 17.8 -  .5 % .22")
     print("Liste der Lexeme", a, " \n")
     print("Liste der Token:")
     for t in b: print(t)
