@@ -47,7 +47,7 @@ class TokenFactory():
                 return Token(TokenType.RANGE_CLOSE, lexem, position)
             case 'E_kz_g':
                 return Token(TokenType.SET_CLOSE, lexem, position)
-            case 'e_eq' | 'e_les' | 'e_gre' |  'E_leq' | 'E_geq' | 'neq':
+            case 'e_eq' | 'e_les' | 'e_gre' |  'E_leq' | 'E_geq' | 'E_neq':
                 return Token(TokenType.RELATIONAL_OPERATOR, lexem, position)
             case 'E_cma':
                 return Token(TokenType.COMMA, lexem, position)
@@ -64,7 +64,7 @@ class TokenFactory():
             case 'E_smpr':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 5, 3, position)
             case _:
-                raise Exception("Unbekannter Endzustand")
+                raise Exception("Unbekannter Endzustand:", endState)
         
         
     

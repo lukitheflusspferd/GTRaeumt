@@ -89,9 +89,10 @@ def tokenize(expression: str):
         # print(char, nextStateID)
     
     # Rückgabe der in der Tokenfactory gesammelten Variablen
-    variables = tokenFaktory.getUnknownIdentifiers()
+    unknownIds = tokenFaktory.getUnknownIdentifiers()
     
-    return lexemList, tokenList, variables
+    # Debugausgaben hier bewusst nicht entfernt
+    return lexemList, tokenList, unknownIds
 
 if __name__ == "__main__":
     #zk = "Hallo_Welt314Pi_dfs$s"
