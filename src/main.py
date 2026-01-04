@@ -10,7 +10,7 @@ lexemList, tokenList, unknownIdentifiers = lexer.tokenize(inputString)
 print("\nListe der Lexeme", lexemList, " \n")
 print("Liste der Token:")
 for t in tokenList: print(t)
-print("\nGefundene unbekannte Bezeichnungen:", unknownIdentifiers)
+print("\nGefundene unbekannte Bezeichner:", unknownIdentifiers)
 
 # Syntaktische Analyse: Shunting-Yard-Algorithmus und Substitution
 newTokenList = prepareTokenstream.prepareTokenstram(tokenList)
