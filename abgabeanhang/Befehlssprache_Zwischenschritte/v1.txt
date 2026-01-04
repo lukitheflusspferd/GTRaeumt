@@ -1,0 +1,9 @@
+Start -> EPSILON
+Start -> Instruction
+Start -> Definition
+Instruction -> Plot | Min | Max | Wende | Ableitung
+Plot -> befehlstokenplot '(' temptoken ')' | befehlstokenplot '(' temptoken '|' temptoken ')'
+Min -> befehlstokenmin '(' temptoken ')'
+Max -> befehlstokenmax '(' temptoken ')'
+Wende -> befehlstokenwende '(' temptoken ')'
+Ableitung -> befehlstokenableitung '(' temptoken '|' temptoken ')' | befehlstokenableitung '(' temptoken '|' temptoken '|' temptoken ')'

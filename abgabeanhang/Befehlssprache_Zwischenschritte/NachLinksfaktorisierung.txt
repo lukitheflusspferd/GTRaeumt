@@ -1,0 +1,23 @@
+Start               -> EPSILON | Instruction | Definition 
+Instruction         -> Plot | Min | Max | Wende | Ableitung 
+Plot                -> befehlstokenplot ( temptoken F1 | befehlstokenplot ( function F2 
+F1                  -> ) | '|' Conditions ) 
+F2                  -> ) | '|' Conditions ) 
+Min                 -> befehlstokenmin ( F3 
+F3                  -> temptoken ) | function ) 
+Max                 -> befehlstokenmax ( F4 
+F4                  -> temptoken ) | function ) 
+Wende               -> befehlstokenwende ( F5 
+F5                  -> temptoken ) | function ) 
+Ableitung           -> b_ableitung ( temptoken '|' unknwn_Id F6 | b_ableitung ( function '|' unknwn_Id F7 
+F6                  -> ) | '|' unknwn_Id ) 
+F7                  -> ) | '|' unknwn_Id ) 
+Definition          -> DefinitionLinks1 | DefinitionLinks2 
+DefinitionLinks1    -> unknwn_Id DefinitionRechts 
+DefinitionLinks2    -> unknwn_Id ( Arguments ) 
+Arguments           -> unknwn_Id ArgumentsFollowing 
+ArgumentsFollowing  -> EPSILON | unknwn_Id ArgumentsFollowing 
+DefinitionRechts    -> temptoken '|' Conditions 
+Conditions          -> SingleCondition ConditionsFollowing 
+ConditionsFollowing -> EPSILON | ; SingleCondition ConditionsFollowing 
+SingleCondition     -> unknwn_Id relationalOperator literal 

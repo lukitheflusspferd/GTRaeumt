@@ -1,0 +1,21 @@
+Start               -> EPSILON | Instruction | DefinitionLeading 
+Instruction         -> PlotLeading | MinLeading | MaxLeading | WendeLeading | AbleitungLeading 
+PlotLeading         -> befehlstokenplot ( PlotMiddle 
+PlotMiddle          -> temptoken PlotTrailing | function PlotTrailing 
+PlotTrailing        -> ) | '|' Conditions ) 
+MinLeading          -> befehlstokenmin ( MinTrailing 
+MinTrailing         -> temptoken ) | function ) 
+MaxLeading          -> befehlstokenmax ( MaxTrailing 
+MaxTrailing         -> temptoken ) | function ) 
+WendeLeading        -> befehlstokenwende ( WendeTrailing 
+WendeTrailing       -> temptoken ) | function ) 
+AbleitungLeading    -> b_ableitung ( AbleitungMiddle 
+AbleitungMiddle     -> temptoken '|' unknwn_Id AbleitungTrailing | function '|' unknwn_Id AbleitungTrailing 
+AbleitungTrailing   -> '|' unknwn_Id ) | ) 
+DefinitionLeading   -> unknwn_Id DefinitionTrailing | ( Arguments ) DefinitionTrailing 
+Arguments           -> unknwn_Id ArgumentsFollowing 
+ArgumentsFollowing  -> unknwn_Id ArgumentsFollowing | EPSILON 
+DefinitionTrailing  -> := temptoken '|' Conditions 
+Conditions          -> SingleCondition ConditionsFollowing 
+ConditionsFollowing -> ; SingleCondition ConditionsFollowing | EPSILON 
+SingleCondition     -> unknwn_Id relationalOperator literal 

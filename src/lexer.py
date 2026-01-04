@@ -62,7 +62,7 @@ def tokenize(expression: str):
                     currentLexem += char
                     index += 1
                 # Der Index ist hier in jedem Fall stellvertretend für das nächste Zeichen, für den Endindex wird daher eins abgezogen    
-                print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentLexem))
+                # print("Endzustand:", nextStateID, "mit Inhalt [{}]".format(currentLexem))
                 tokenList.append(tokenFaktory.generateToken(nextStateID, currentLexem, (lexemStartIndex, index -1)))
                 lexemList.append(currentLexem)
                 nextPossibleStates = deepcopy(STATES["start"])
