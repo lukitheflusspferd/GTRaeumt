@@ -1,4 +1,5 @@
 from lexerToken import *
+from shuntingYard import*
 
 def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence|TermSubstitutionToken]:
     """
@@ -32,13 +33,17 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
             
         # Wenn kein Seperator, dann bis zum vorletzen Token substituieren (letztes müsste Klammer sein) (y bei list[x:y] nicht inkludiert)
         if seperatorPosition == -1:
-            tokenListToSubstitute = tokenList[2:len(tokenList)-1]
-            tokenList = tokenList[0:2] + [TermSubstitutionToken(tokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
+            termTokenListToSubstitute = tokenList[2:len(tokenList)-1]
+            termTokenListToSubstitute = preTermParsingCheck(termTokenListToSubstitute)
+            termTokenListToSubstitute = shuntingYardAlgorithm(termTokenListToSubstitute)
+            tokenList = tokenList[0:2] + [TermSubstitutionToken(termTokenListToSubstitute)] + [tokenList[len(tokenList)-1]]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
-        tokenListToSubstitute = tokenList[2:seperatorPosition]
-        tokenList = tokenList[0:2] + [TermSubstitutionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        termTokenListToSubstitute = tokenList[2:seperatorPosition]
+        termTokenListToSubstitute = preTermParsingCheck(termTokenListToSubstitute)
+        termTokenListToSubstitute = shuntingYardAlgorithm(termTokenListToSubstitute)
+        tokenList = tokenList[0:2] + [TermSubstitutionToken(termTokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
     
     else:
@@ -66,14 +71,18 @@ def prepareTokenstram(tokenList: list[Token|TokenWithPrecedence]) -> list[Token|
         
         # Wenn kein Seperator, dann bis zum letzen Token substituieren
         if seperatorPosition == -1:
-            tokenListToSubstitute = tokenList[assignmentPosition+1:len(tokenList)]
-            tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(tokenListToSubstitute)]
+            termTokenListToSubstitute = tokenList[assignmentPosition+1:len(tokenList)]
+            termTokenListToSubstitute = preTermParsingCheck(termTokenListToSubstitute)
+            termTokenListToSubstitute = shuntingYardAlgorithm(termTokenListToSubstitute)
+            tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(termTokenListToSubstitute)]
             return tokenList
         
         # Jetzt bis zum Seperator substituieren
         
-        tokenListToSubstitute = tokenList[assignmentPosition+1:seperatorPosition]
-        tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(tokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
+        termTokenListToSubstitute = tokenList[assignmentPosition+1:seperatorPosition]
+        termTokenListToSubstitute = preTermParsingCheck(termTokenListToSubstitute)
+        termTokenListToSubstitute = shuntingYardAlgorithm(termTokenListToSubstitute)
+        tokenList = tokenList[0:assignmentPosition+1] + [TermSubstitutionToken(termTokenListToSubstitute)] + tokenList[seperatorPosition:len(tokenList)]
         return tokenList
         
         

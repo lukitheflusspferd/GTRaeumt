@@ -31,13 +31,13 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         """
         Testet, ob in Befehlen mit und ohne Argumente korrekt substituiert wird
         """
-        _, tokenstream, _ = lexer.tokenize("plot(sin(a*(c-kmh)|a>=5))")
+        _, tokenstream, _ = lexer.tokenize("plot(sin(a*(c-kmh))|a>=5)")
         newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.COMMAND_PLOT, TokenType.PARENTHESIS_OPEN, TokenType.TERM_SUBSTITUTION,
                                    TokenType.ARGUMENTSEPERATOR, TokenType.UNKNOWN_IDENTIFIER, TokenType.RELATIONAL_OPERATOR,
-                                   TokenType.LITERAL, TokenType.PARENTHESIS_CLOSE, TokenType.PARENTHESIS_CLOSE]
-        self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'plot(sin(a*(c-kmh)|a>=5))'")
+                                   TokenType.LITERAL, TokenType.PARENTHESIS_CLOSE]
+        self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'plot(sin(a*(c-kmh))|a>=5)'")
         
         _, tokenstream, _ = lexer.tokenize("plot(sin(a*(c-kmh)))")
         newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
@@ -49,14 +49,14 @@ class TestParserPrepareTokenstream(unittest.TestCase):
         """
         Testet, ob in Definitionen mit und ohne Argument korrekt substituiert wird
         """
-        _, tokenstream, _ = lexer.tokenize("f(g):=sin(a*(c-kmh)|a>=5)")
+        _, tokenstream, _ = lexer.tokenize("f(g):=sin(a*(c-kmh))|a>=5")
         newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
         tokenTypeStream = [item.getTokenType() for item in newTokenstream]
         expectedTokenTypeStream = [TokenType.UNKNOWN_IDENTIFIER, TokenType.PARENTHESIS_OPEN, TokenType.UNKNOWN_IDENTIFIER, 
                                    TokenType.PARENTHESIS_CLOSE, TokenType.ASSIGNMENT, TokenType.TERM_SUBSTITUTION,
                                    TokenType.ARGUMENTSEPERATOR, TokenType.UNKNOWN_IDENTIFIER, TokenType.RELATIONAL_OPERATOR,
-                                   TokenType.LITERAL, TokenType.PARENTHESIS_CLOSE]
-        self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'f(g):=sin(a*(c-kmh)|a>=5)'")
+                                   TokenType.LITERAL]
+        self.assertEqual(tokenTypeStream, expectedTokenTypeStream, f"Inkorrekte Zurückgabe bei Eingabe von 'f(g):=sin(a*(c-kmh))|a>=5'")
         
         _, tokenstream, _ = lexer.tokenize("f(g):=sin(a*(c-kmh))")
         newTokenstream = prepareTokenstream.prepareTokenstram(tokenstream)
