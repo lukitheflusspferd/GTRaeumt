@@ -66,8 +66,8 @@ def shuntingYardAlgorithm(inputTermTokenQueue: list[Token|TokenWithPrecedence]) 
         token = inputTermTokenQueue.pop(0)
         tokenType = token.getTokenType()
         
-        # Wenn das Token eine Zahl ist
-        if tokenType == TokenType.LITERAL:
+        # Wenn das Token eine Zahl oder eine Variable ist (hier können Unknown-Ids nur Variablen sein)
+        if tokenType in {TokenType.LITERAL, TokenType.UNKNOWN_IDENTIFIER}:
             outputTermTokenQueue.append(token)
             continue
         
