@@ -126,13 +126,13 @@ class TokenWithPrecedence(Token):
         return self.__arity
     
     def __str__(self):
-        return f"Tokenobjekt ->  Typ: {self._tokenType},   Inhalt: {self._lexem},   Assoziativität: {self.__associativity},   Priorität: {self.__precedence},   Stelligkeit: {self.__arity},   Position: {self._position[0]}..{self._position[1]}"
+        return f"Tokenobjekt ->  Typ: {self._tokenType},  Inhalt: {self._lexem},  Assoziativität: {self.__associativity},  Priorität: {self.__precedence},  Stelligkeit: {self.__arity},  Position: {self._position[0]}..{self._position[1]}"
         
 class TermSubstitutionToken(Token):
-    def __init__(self, tokens: list[Token]):
+    def __init__(self, tokens: list[Token], position : tuple[int, int]):
         self.__tokenlist = tokens
         assert len(tokens)!=0
-        overallPosition = (tokens[0].getPosition()[0], tokens[len(tokens)-1].getPosition()[1])
+        overallPosition = position
         super().__init__(TokenType.TERM_SUBSTITUTION, "", overallPosition)
     
     def getTokenlist(self):
