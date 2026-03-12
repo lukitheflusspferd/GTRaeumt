@@ -85,7 +85,7 @@ def shuntingYardAlgorithm(inputTermTokenQueue: list[Token|TokenWithPrecedence]) 
                     abort = True
                     continue
                 tokenPrecedence = token.getPrecedence() # type: ignore
-                if not(operatorStack[-1].getPrecedence() > tokenPrecedence or (operatorStack[-1].getPrecedence() == tokenPrecedence and token.getAssociativity() == Associativity.LEFT)): # type: ignore
+                if not(operatorStack[-1].getPrecedence() > tokenPrecedence or (operatorStack[-1].getPrecedence() == tokenPrecedence and token.getAssociativity() in {Associativity.LEFT, Associativity.NONE})): # type: ignore
                     abort = True
                     continue
                 

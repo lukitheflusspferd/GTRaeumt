@@ -22,14 +22,18 @@ class TokenFactory():
         """
         
         match endState:
-            case 'E_add' | 'E_sub':
+            case 'E_add':
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.NONE, 1, 2, position)
+            case 'E_sub':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 1, 2, position)
             case 'e_nmbr':
                 return Token(TokenType.LITERAL, lexem, position)
             case 'e_str':
                 return self.__severalStrings(lexem, position)
                 # return Token(TokenType.LITERAL, lexem, position)
-            case 'e_mul' | 'E_div':
+            case 'e_mul':
+                return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.NONE, 3, 2, position)
+            case 'E_div':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 3, 2, position)
             case 'E_mod':
                 return TokenWithPrecedence(TokenType.OPERATOR, lexem, Associativity.LEFT, 2, 2, position)

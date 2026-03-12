@@ -49,6 +49,7 @@ class Associativity(Enum):
     """
     RIGHT = "right"
     LEFT = "left"
+    NONE = None
 
 class TokenType(Enum):
     LITERAL = "literal"
