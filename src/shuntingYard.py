@@ -40,6 +40,17 @@ def preTermParsingCheck(inputTokenList: list[Token|TokenWithPrecedence]) -> list
                 i+=1
         i += 1
     
+    # Für jedes Token bis einschließlich des vorletzten wird überprüft, ob es ein Literal ist ist
+    # wenn ja wird das nachfolgende Token ebenfalls geprüft --> Einfügen eines Multiplikationsoperators
+    count = len(inputTokenList)
+    for i in range(count-1):
+        if inputTokenList[i].getTokenType() in {TokenType.LITERAL, TokenType.VARIABLE, TokenType.UNKNOWN_IDENTIFIER, TokenType.PARENTHESIS_CLOSE}:
+            # das nachfolgende darf ausschließlich eine Funktion sein, zur Abfrage der Priorität muss erst geprüft werden, ob überhaupt Operator
+            if inputTokenList[i+1].getTokenType() in {TokenType.LITERAL,TokenType.FUNCTION, TokenType.VARIABLE, TokenType.UNKNOWN_IDENTIFIER, TokenType.PARENTHESIS_OPEN}:
+                inputTokenList.insert(i+1,TokenWithPrecedence(TokenType.OPERATOR, '*', Associativity.NONE, 3, 2, (-1, -1)))
+    
+    for t in inputTokenList: print(t)
+    
     return inputTokenList
 
 def shuntingYardAlgorithm(inputTermTokenQueue: list[Token|TokenWithPrecedence]) -> list[Token|TokenWithPrecedence]:
