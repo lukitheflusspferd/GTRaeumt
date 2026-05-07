@@ -1,5 +1,6 @@
 import lexer
 import prepareTokenstream
+import LLParser
 
 # Dies ist die Hauptdatei, welche alle Algorithmen zusammenfasst
 
@@ -17,4 +18,7 @@ newTokenList = prepareTokenstream.prepareTokenstram(tokenList)
 print("\nNeue Liste der Token:")
 for t in newTokenList: print(t)
 
-# Hier würde der LL(1)-Parser folgen
+print()
+print("-> Ausführung des LL-Parsers")
+LLParser.LLParser(newTokenList)
+print()

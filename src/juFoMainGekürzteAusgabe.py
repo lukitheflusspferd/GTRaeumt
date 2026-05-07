@@ -1,6 +1,7 @@
 import lexer
 import prepareTokenstream
 import lexerToken
+import LLParser
 
 # Dies ist die Hauptdatei, welche alle Algorithmen zusammenfasst
 
@@ -30,4 +31,7 @@ for t in newTokenList:
 print("-> Ausführung des Shunting-Yard-Algorithmus")
 print("Neue Token:", output)
 
-# Hier würde der LL(1)-Parser folgen
+print()
+print("-> Ausführung des LL-Parsers")
+LLParser.LLParser(newTokenList)
+print()
